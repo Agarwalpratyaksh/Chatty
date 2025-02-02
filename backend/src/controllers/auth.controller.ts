@@ -104,3 +104,13 @@ export const updateProfile = async (req: express.Request, res: express.Response)
       res.status(500).json({message:"Error in updating profile"})   
     }
 }
+
+
+export const checkAuth = async (req: express.Request, res: express.Response) => {
+  try {
+    res.status(200).json(req.user)
+  } catch (error) {
+    console.log("Error in checking auth",error)
+    res.status(500).json({message:"Error in checking auth"})
+  }
+}
