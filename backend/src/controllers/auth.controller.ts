@@ -1,6 +1,7 @@
 import express from "express";
 import userModel from "../models/user.model";
 import { generateToken } from "../lib/utils";
+import cloudinary from "../lib/cloudinary";
 export const signup = async (req: express.Request, res: express.Response) => {
   try {
     const { fullName, email, password } = req.body;
@@ -75,3 +76,31 @@ export const logout = async (req: express.Request, res: express.Response) => {
     res.status(400).json({ message: "Error in logout user" });
   }
 };
+
+
+export const updateProfile = async (req: express.Request, res: express.Response) => {
+    try {
+      const {profilePic} = req.body;
+      const userId = req.user._id
+   
+      if(!profilePic){
+        res.status(400).json({message:"Profile pic is required"})
+        return  
+      }
+
+      const uploadResult = await cloudinary.uploader.upload(profilePic)
+      const updatedUser = await userModel.findByIdAndUpdate(userId,{
+        profilePic: uploadResult.secure_url
+      },{
+        new: true
+      })
+
+      res.status(200).json(updatedUser)
+      
+
+
+    } catch (error) {
+      console.log("errorr in updating profile",error)
+      res.status(500).json({message:"Error in updating profile"})   
+    }
+}

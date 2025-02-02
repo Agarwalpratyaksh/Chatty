@@ -23,3 +23,4 @@ export const generateToken = (userId: any, res: express.Response)=>{
     return token
 
 }
+
