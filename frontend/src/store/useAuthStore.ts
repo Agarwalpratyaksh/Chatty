@@ -61,9 +61,11 @@ export const useAuthStore = create((set) => ({
         console.log("error in login",error)
         toast.error(axiosError.response.data.message )
 
-      }
+      }else{
         console.log("error in login",error)
         toast.error("Error in login")
+        
+      }
 
     }finally{
         set({isLoggingIn: false})
