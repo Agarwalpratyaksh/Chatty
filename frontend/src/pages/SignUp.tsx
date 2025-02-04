@@ -1,4 +1,4 @@
-import { Eye, EyeOff, Key, Mail, MessagesSquare, User } from "lucide-react";
+import { Eye, EyeOff, Key, Loader2, Mail, MessagesSquare, User } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 import AuthImagePattern from "../components/AuthImagePattern";
@@ -127,19 +127,19 @@ function SignUp() {
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
-                <button className="absolute inset-y-0 right-0 pr-3 flex items-center" onClick={()=>{setShowPassword(!showPassword)}}>
+               
                   { showPassword ? (
-                    <Eye/>
-                  ):(<EyeOff/>)
+                    <Eye className="size-9 absolute inset-y-0 right-0 pr-3 flex items-center" onClick={()=>{setShowPassword(!showPassword)}}/>
+                  ):(<EyeOff className="size-9 absolute inset-y-0 right-0 pr-3 flex items-center" onClick={()=>{setShowPassword(!showPassword)}}/>)
                 }
-                </button>
+                
 
 
       
               </div>
             </div>
 
-            <button type="submit" className="btn btn-primary w-full mt-6">Create your account</button>
+            <button type="submit" className="btn btn-primary w-full mt-6" disabled={isSigningUp} >{isSigningUp ? (<Loader2 className="animate-spin"/>):("SCreate your account")}</button>
           </form>
           <p className="text-sm font-light  py-5 mb-10">Already have an account ? 
             <Link to={'/login'}>

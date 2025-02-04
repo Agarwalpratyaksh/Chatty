@@ -54,7 +54,7 @@ function Login() {
     <>
 
     
-      <div className="grid lg:grid-cols-2 min-h-screen">
+      <div className="grid lg:grid-cols-2 h-screen">
         <div className="flex flex-col justify-center items-center w-full p-6 sm:p-12">
           <div className="w-full max-w-md space-y-8">
 
@@ -109,12 +109,10 @@ function Login() {
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
-                <button className="absolute inset-y-0 right-0 pr-3 flex items-center" onClick={()=>{setShowPassword(!showPassword)}}>
-                  { showPassword ? (
-                    <Eye/>
-                  ):(<EyeOff/>)
+                { showPassword ? (
+                    <Eye className="size-9 absolute inset-y-0 right-0 pr-3 flex items-center" onClick={()=>{setShowPassword(!showPassword)}}/>
+                  ):(<EyeOff className="size-9 absolute inset-y-0 right-0 pr-3 flex items-center" onClick={()=>{setShowPassword(!showPassword)}}/>)
                 }
-                </button>
 
 
       
