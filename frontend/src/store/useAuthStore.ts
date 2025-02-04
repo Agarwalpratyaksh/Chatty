@@ -107,7 +107,7 @@ export const useAuthStore = create((set) => ({
       if(axiosError.response){
         
         console.log("error in updateProfile",error)
-        toast.error(axiosError.response.data.message )
+        toast.error(axiosError.response.data.message || "Error in uploading profile" )
 
       }else{
         console.log("error in updateProfile",error)
