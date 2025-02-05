@@ -1,7 +1,8 @@
 import { create } from 'zustand'
 
 type Store = {
-  theme: string
+  theme: string,
+  setTheme: (theme: string) => void
   
 }
 
