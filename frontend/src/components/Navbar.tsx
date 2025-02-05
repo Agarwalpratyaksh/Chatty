@@ -18,7 +18,7 @@ const {authUser,logout} = useAuthStore() as any
         <div className="bg-primary/10 p-3 rounded-2xl ">
         <MessagesSquare className="h-6 w-6 text-primary"/>
       </div>
-      <p className="text-xl font-bold text-primary-content mx-5 ">ChatIt  </p>
+      <p className="text-xl font-bold text-primary mx-5 ">ChatIt  </p>
       </div>
 
         </Link>
@@ -26,7 +26,7 @@ const {authUser,logout} = useAuthStore() as any
       <div  className="flex items-center gap-3">
 
 
-      <Link to={'/profile'} className="btn rounded-2xl btn-soft gap-2 border-0 flex items-center">
+      <Link to={'/setting'} className="btn rounded-2xl btn-soft gap-2 border-0 flex items-center">
          <Settings className="size-5"/>
          <span className="hidden sm:inline">Settings</span>
  
