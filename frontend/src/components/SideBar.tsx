@@ -2,9 +2,10 @@ import { Users } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
 import { useEffect } from "react";
 import { useAuthStore } from "../store/useAuthStore";
+import SidebarSkeleton from "./Skeleton/SidebarSkeleton";
 
 function SideBar() {
-  const { selectedUser, getUsers, users, setSelectedUser} = useChatStore();
+  const { selectedUser, getUsers, users, setSelectedUser, isUsersLoading} = useChatStore();
   //@ts-ignore
   const { onlineUsers } = useAuthStore();
 
@@ -12,6 +13,10 @@ function SideBar() {
     getUsers();
     console.log(users);
   }, [getUsers]);
+
+
+  if(isUsersLoading) return <SidebarSkeleton/>
+
 
   return (
     <aside className=" h-full w-20 md:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
