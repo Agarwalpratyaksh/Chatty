@@ -11,7 +11,7 @@ type Store = {
   isMessagesLoading: boolean;
   getUsers: () => Promise<void>;
   getMessages: (userId: string) => Promise<void>;
-  setSelectedUser : (userId: string) => void
+  setSelectedUser : (userId: string | null) => void
 };
 
 export const useChatStore = create<Store>()((set) => ({
@@ -56,5 +56,5 @@ export const useChatStore = create<Store>()((set) => ({
     }
   },
 
-  setSelectedUser : (userId: string) => set({selectedUser: userId}),
+  setSelectedUser : (userId: string |null) => set({selectedUser: userId}),
 }));

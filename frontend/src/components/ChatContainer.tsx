@@ -1,8 +1,13 @@
-import React from 'react'
+import ChatHeader from './ChatHeader'
+import ChatInput from './ChatInput'
 
 function ChatContainer() {
   return (
-    <div>ChatContainer</div>
+    <div className='flex  flex-1 flex-col overflow-auto'>
+      <ChatHeader/>
+      {"messgaess"}
+      <ChatInput/>
+    </div>
   )
 }
 

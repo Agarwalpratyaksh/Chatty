@@ -3,7 +3,24 @@ import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 
-export const useAuthStore = create((set) => ({
+
+type Store = {
+  authUser: any;
+  isSigningUp: boolean;
+  isLoggingIn: boolean;
+  isUpdatingProfile: boolean;
+  isCheckingAuth: boolean;
+  onlineUsers:any[];
+
+  checkAuth: () => Promise<void>;
+  signup: (data:{fullName: string, email: string, password: string}) => Promise<void>;
+  login: (data:{email: string, password: string}) => Promise<void>;
+  logout: () => void;
+  updateProfile: (data:{profilePic: string}) => Promise<void>;
+
+}
+
+export const useAuthStore = create<Store>((set) => ({
   authUser: null,
   isSigningUp: false,
   isLoggingIn: false,
