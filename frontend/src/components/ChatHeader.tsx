@@ -5,7 +5,6 @@ import { X } from "lucide-react";
 function ChatHeader() {
   const { selectedUser, setSelectedUser } = useChatStore();
   const {onlineUsers} = useAuthStore()
-  console.log(selectedUser)
   return (
     <div className="w-full p-2.5 px-5 border-b border-base-200 ">
       <div className="flex items-center justify-between">
