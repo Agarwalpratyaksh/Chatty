@@ -43,6 +43,8 @@ function SideBar() {
               }
             `}
 
+            key={user._id}
+
             onClick={()=> setSelectedUser(user)}
           >
             <div className="relative mx-auto md:mx-0">

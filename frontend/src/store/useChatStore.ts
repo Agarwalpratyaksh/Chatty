@@ -3,18 +3,28 @@ import { axiosInstance } from "../lib/axios";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 
+type User = {
+  createdAt: Date;
+  email: string;
+  fullName: string;
+  profilePic: string | null;
+  updatedAt: Date;
+  __v?: any;
+  _id?: any;
+};
 type Store = {
   messages: [];
   users: [];
-  selectedUser: string | null;
+  selectedUser: User | null;
   isUsersLoading: boolean;
   isMessagesLoading: boolean;
   getUsers: () => Promise<void>;
   getMessages: (userId: string) => Promise<void>;
-  setSelectedUser : (userId: string | null) => void
+  setSelectedUser: (user: User | null) => void;
+  sendMessage: (messageData:any) => Promise<void>;
 };
 
-export const useChatStore = create<Store>()((set) => ({
+export const useChatStore = create<Store>()((set,get) => ({
   messages: [],
   users: [],
   selectedUser: null,
@@ -56,5 +66,25 @@ export const useChatStore = create<Store>()((set) => ({
     }
   },
 
-  setSelectedUser : (userId: string |null) => set({selectedUser: userId}),
+  setSelectedUser: (user: User | null) => set({ selectedUser: user }),
+
+
+  sendMessage: async (messageData:any) => {
+    try {
+
+      const {selectedUser, messages } = get();
+
+      const res = await axiosInstance.post(`/messages/send/${selectedUser?._id}`,messageData )
+      //@ts-ignore
+      set({messages: [...messages, res.data]})
+
+      
+    } catch (error) {
+      const axiosError = error as AxiosError<any>;
+      console.log("Error in sending message", axiosError);
+      
+        toast.error("Error in sending message");
+      
+    }
+  }
 }));
