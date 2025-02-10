@@ -11,31 +11,36 @@ const io = new Server(server, {
   },
 });
 
-const userSocketMap = {}; // userId: socketId
+let userSocketMap: Record<string, string> = {};
+ // userId: socketId
 
 io.on("connection", (socket) => {
   console.log("User connected", socket.id);
   const userId = socket.handshake.query.userId;
 
-  //@ts-ignore
-  if (userId) userSocketMap[userId] = socket.id;
+  
+  if (typeof userId === "string") {
+    userSocketMap[userId] = socket.id;
+  }
+  
 console.log(userSocketMap)
+
+
   //io.emit is used to emit the below message to all the connected clients
-  socket.emit("getOnlineUsers", Object.keys(userSocketMap));
+  io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
   socket.on("disconnect", () => {
     console.log("User disconnected", socket.id);
 
     const userId = Object.keys(userSocketMap).find(
-      //@ts-ignore
       (key) => userSocketMap[key] === socket.id
     );
     if (userId) {
-      //@ts-ignore
       delete userSocketMap[userId];
+
     }
 
-    socket.broadcast.emit("getOnlineUsers", Object.keys(userSocketMap));
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });
 });
 
