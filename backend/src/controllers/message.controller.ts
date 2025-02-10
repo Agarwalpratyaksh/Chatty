@@ -2,6 +2,7 @@ import express from 'express'
 import userModel from '../models/user.model';
 import messageModel from '../models/message.model';
 import cloudinary from '../lib/cloudinary';
+import { getRecieverSocketId, io } from '../lib/socket';
 
 export const getUsersForSidebar = async (req: express.Request, res: express.Response) => {
     
@@ -73,7 +74,18 @@ export const sendMessage = async (req: express.Request, res: express.Response) =
 
         await newMessage.save()
 
+        
+                const recieverSocketId = getRecieverSocketId(othersId)
+        
+                if(recieverSocketId){
+                    io.to(recieverSocketId).emit("newMessage", newMessage)
+                }
+
+                
         res.status(200).json(newMessage)
+
+
+
         
     } catch (error) {
         console.log("Error in sending message",error)

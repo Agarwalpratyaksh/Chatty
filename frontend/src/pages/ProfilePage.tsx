@@ -95,7 +95,7 @@ function ProfilePage() {
                   </div>
                   <div className="flex justify-between items-center border-b border-zinc-400 pb-2">
                    <span>Member Since</span>
-                   <span>{authUser?.createdAt.split("T")[0]}</span>
+                   <span>{authUser.createdAt.split("T")[0]}</span>
                   </div>
                   <div className="flex items-center justify-between py-2">
                 <span>Account Status</span>

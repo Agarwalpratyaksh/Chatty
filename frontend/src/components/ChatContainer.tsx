@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useChatStore } from "../store/useChatStore";
 import ChatHeader from "./ChatHeader";
 import ChatInput from "./ChatInput";
@@ -7,13 +7,39 @@ import { formatTime } from "../lib/utils";
 import MessagesSkeleton from "./Skeleton/MessagesSkeleton";
 
 function ChatContainer() {
-  const { selectedUser, messages, getMessages, isMessagesLoading } =
-    useChatStore();
+  const {
+    selectedUser,
+    messages,
+    getMessages,
+    isMessagesLoading,
+    subscribeToMessage,
+    unsubscribeToMessage
+  } = useChatStore();
+
+
   const { authUser } = useAuthStore();
+  const messageEndScrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     getMessages(selectedUser?._id);
-  }, [selectedUser?._id, getMessages]);
+    subscribeToMessage();
+    console.log(messages);
+
+    return ()=>{
+      unsubscribeToMessage()
+    }
+  }, [selectedUser?._id, getMessages, subscribeToMessage,unsubscribeToMessage]);
+
+
+  useEffect(()=>{
+   
+    if (messageEndScrollRef.current && messages) {
+      messageEndScrollRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+    
+   
+  },[messages])
+
 
   if (isMessagesLoading) {
     return (
@@ -30,9 +56,10 @@ function ChatContainer() {
     <div className="flex  flex-1 flex-col overflow-auto">
       <ChatHeader />
       <div className="overflow-y-auto flex-1 px-4">
-        {messages.map((message: any) => (
+        {messages.map((message: any,index) => (
           <div
-            key={message._id}
+          ref={messageEndScrollRef}
+            key={`${message._id}-${index}`}
             className={`chat ${
               message.senderId === authUser?._id ? "chat-end" : "chat-start"
             }`}
@@ -52,12 +79,11 @@ function ChatContainer() {
 
             <div className="chat-header">
               <time className="text-xs opacity-50">
-                
                 {formatTime(message.createdAt)}
               </time>
             </div>
 
-            <div className="chat-bubble flex flex-col items-center">
+            <div className="chat-bubble flex flex-col items-center" >
               {message.image && (
                 <img
                   src={message?.image}

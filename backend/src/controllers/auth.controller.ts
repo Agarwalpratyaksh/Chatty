@@ -56,9 +56,10 @@ export const login = async (req: express.Request, res: express.Response) => {
 
     res.status(200).json({
       message: "User logged in successfully",
-      userId: user?._id,
+      _id: user?._id,
       fullName: user?.fullName,
       email: user?.email,
+      profilePic: user?.profilePic,
     });
   } catch (error) {
     console.log("Error in login", error);

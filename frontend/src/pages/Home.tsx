@@ -6,6 +6,7 @@ import { useChatStore } from "../store/useChatStore";
 const Home = () => {
   const { selectedUser } = useChatStore();
 
+
   return (
     <div className=" h-screen bg-base-200 overflow-y-clip">
       <div className=" py-25 px-4 flex items-center justify-center my-auto">

@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import { useAuthStore } from "./useAuthStore";
 
 type User = {
   createdAt: Date;
@@ -14,17 +15,19 @@ type User = {
 };
 type Store = {
   messages: [];
-  users: [];
+  users: User[];
   selectedUser: User | null;
   isUsersLoading: boolean;
   isMessagesLoading: boolean;
   getUsers: () => Promise<void>;
   getMessages: (userId: string) => Promise<void>;
   setSelectedUser: (user: User | null) => void;
-  sendMessage: (messageData:any) => Promise<void>;
+  sendMessage: (messageData: any) => Promise<void>;
+  subscribeToMessage: () => void;
+  unsubscribeToMessage: () => void;
 };
 
-export const useChatStore = create<Store>()((set,get) => ({
+export const useChatStore = create<Store>()((set, get) => ({
   messages: [],
   users: [],
   selectedUser: null,
@@ -53,7 +56,7 @@ export const useChatStore = create<Store>()((set,get) => ({
 
     // await new Promise<void>((resolve, reject) => {
     //   setTimeout(() => {
-    //    resolve(); 
+    //    resolve();
     //   }, 10000);
     // })
 
@@ -75,23 +78,47 @@ export const useChatStore = create<Store>()((set,get) => ({
 
   setSelectedUser: (user: User | null) => set({ selectedUser: user }),
 
-
-  sendMessage: async (messageData:any) => {
+  sendMessage: async (messageData: any) => {
     try {
+      const { selectedUser, messages } = get();
 
-      const {selectedUser, messages } = get();
-
-      const res = await axiosInstance.post(`/messages/send/${selectedUser?._id}`,messageData )
+      const res = await axiosInstance.post(
+        `/messages/send/${selectedUser?._id}`,
+        messageData
+      );
       //@ts-ignore
-      set({messages: [...messages, res.data]})
-
-      
+      set({ messages: [...messages, res.data] });
     } catch (error) {
       const axiosError = error as AxiosError<any>;
       console.log("Error in sending message", axiosError);
-      
-        toast.error("Error in sending message");
-      
+
+      toast.error("Error in sending message");
     }
-  }
+  },
+
+  subscribeToMessage: () => {
+    const { selectedUser } = get();
+
+    if (!selectedUser) return;
+
+    const { socket } = useAuthStore.getState();
+
+    console.log("selectedUser",selectedUser)
+
+    //@ts-ignore
+    socket.on("newMessage", (message) => {
+      console.log("message",message)
+      const isMessageSentFromSelectedUser = message.senderId == selectedUser._id
+      if(!isMessageSentFromSelectedUser) return;
+      //@ts-ignore
+      set({ messages: [...get().messages, message] });
+    });
+  },
+
+  unsubscribeToMessage: () => {
+    const { socket } = useAuthStore.getState();
+    socket.off("newMessage");
+  },
+
+
 }));

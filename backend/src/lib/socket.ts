@@ -12,19 +12,21 @@ const io = new Server(server, {
 });
 
 let userSocketMap: Record<string, string> = {};
- // userId: socketId
+// userId: socketId
+export function getRecieverSocketId(userId: string) {
+  return userSocketMap[userId];
 
+
+}
 io.on("connection", (socket) => {
   console.log("User connected", socket.id);
   const userId = socket.handshake.query.userId;
 
-  
   if (typeof userId === "string") {
     userSocketMap[userId] = socket.id;
   }
-  
-console.log(userSocketMap)
 
+  console.log(userSocketMap);
 
   //io.emit is used to emit the below message to all the connected clients
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
@@ -37,7 +39,6 @@ console.log(userSocketMap)
     );
     if (userId) {
       delete userSocketMap[userId];
-
     }
 
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
