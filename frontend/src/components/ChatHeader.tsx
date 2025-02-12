@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 
 function ChatHeader() {
   const { selectedUser, setSelectedUser } = useChatStore();
-  const {onlineUsers} = useAuthStore()
+  const { onlineUsers } = useAuthStore();
   return (
     <div className="w-full p-2.5 px-5 border-b border-base-200 ">
       <div className="flex items-center justify-between">
@@ -15,7 +15,7 @@ function ChatHeader() {
               <img
                 src={
                   //@ts-ignore
-                  selectedUser?.profilePic || "./src/avatar.png"
+                  selectedUser?.profilePic || "./src/assets/avatar.png"
                 }
                 alt="profilePic"
               />
@@ -23,11 +23,18 @@ function ChatHeader() {
           </div>
           <div>
             <h3 className="font-medium">{selectedUser?.fullName}</h3>
-            <p className="text-xs text-base-content">{onlineUsers.includes(selectedUser?._id) ? "Online" : "Offline"}</p>
+            <p className="text-xs text-base-content">
+              {onlineUsers.includes(selectedUser?._id) ? "Online" : "Offline"}
+            </p>
           </div>
         </div>
-        <div onClick={()=>{setSelectedUser(null)}} className="hover:bg-base-200 rounded-full p-1">
-            <X/>
+        <div
+          onClick={() => {
+            setSelectedUser(null);
+          }}
+          className="hover:bg-base-200 rounded-full p-1"
+        >
+          <X />
         </div>
       </div>
     </div>

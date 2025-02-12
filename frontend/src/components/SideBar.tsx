@@ -11,13 +11,14 @@ function SideBar() {
   const { onlineUsers } = useAuthStore();
 
   const [showOnlineOnly, setShowOnlineOnly] = useState(false);
-  const filteredUsers = showOnlineOnly? users.filter((user)=> onlineUsers.includes(user._id)) : users
+  const filteredUsers = showOnlineOnly
+    ? users.filter((user) => onlineUsers.includes(user._id))
+    : users;
 
   useEffect(() => {
     getUsers();
     // console.log(users);
   }, [getUsers]);
-
 
   if (isUsersLoading) return <SidebarSkeleton />;
 
@@ -40,9 +41,10 @@ function SideBar() {
             />
             <span className="text-sm">Show online only</span>
           </label>
-          <span className="text-xs text-zinc-500">({onlineUsers.length - 1} online)</span>
+          <span className="text-xs text-zinc-500">
+            ({onlineUsers.length - 1} online)
+          </span>
         </div>
-      
       </div>
 
       <div className="overflow-y-auto w-full py-3">
@@ -64,7 +66,7 @@ function SideBar() {
           >
             <div className="relative mx-auto md:mx-0">
               <img
-                src={user.profilePic || "./src/avatar.png"}
+                src={user.profilePic || "./src/assets/avatar.png"}
                 alt={user.fullName}
                 className="size-12 object-cover rounded-full"
               />

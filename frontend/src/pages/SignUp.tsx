@@ -36,7 +36,7 @@ function SignUp() {
 
   function handleForm(e: any) {
 
-    console.log("handleform")
+    // console.log("handleform")
     e.preventDefault()
 
     const success = validateForm()
@@ -85,7 +85,7 @@ function SignUp() {
                   placeholder="John Doe"
                   value={formData.fullName}
                   onChange={(e) => {setFormData({ ...formData, fullName: e.target.value })
-                  console.log(formData)
+                  // console.log(formData)
                 }}
                 />
               </div>

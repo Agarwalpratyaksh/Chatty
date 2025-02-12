@@ -103,11 +103,11 @@ export const useChatStore = create<Store>()((set, get) => ({
 
     const { socket } = useAuthStore.getState();
 
-    console.log("selectedUser",selectedUser)
+    // console.log("selectedUser",selectedUser)
 
     //@ts-ignore
     socket.on("newMessage", (message) => {
-      console.log("message",message)
+      // console.log("message",message)
       const isMessageSentFromSelectedUser = message.senderId == selectedUser._id
       if(!isMessageSentFromSelectedUser) return;
       //@ts-ignore

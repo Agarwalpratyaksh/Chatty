@@ -13,33 +13,32 @@ function ChatContainer() {
     getMessages,
     isMessagesLoading,
     subscribeToMessage,
-    unsubscribeToMessage
+    unsubscribeToMessage,
   } = useChatStore();
 
-
   const { authUser } = useAuthStore();
-  const messageEndScrollRef = useRef<HTMLDivElement>(null)
+  const messageEndScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     getMessages(selectedUser?._id);
     subscribeToMessage();
-    console.log(messages);
+    // console.log(messages);
 
-    return ()=>{
-      unsubscribeToMessage()
-    }
-  }, [selectedUser?._id, getMessages, subscribeToMessage,unsubscribeToMessage]);
+    return () => {
+      unsubscribeToMessage();
+    };
+  }, [
+    selectedUser?._id,
+    getMessages,
+    subscribeToMessage,
+    unsubscribeToMessage,
+  ]);
 
-
-  useEffect(()=>{
-   
+  useEffect(() => {
     if (messageEndScrollRef.current && messages) {
       messageEndScrollRef.current.scrollIntoView({ behavior: "smooth" });
     }
-    
-   
-  },[messages])
-
+  }, [messages]);
 
   if (isMessagesLoading) {
     return (
@@ -56,9 +55,9 @@ function ChatContainer() {
     <div className="flex  flex-1 flex-col overflow-auto">
       <ChatHeader />
       <div className="overflow-y-auto flex-1 px-4">
-        {messages.map((message: any,index) => (
+        {messages.map((message: any, index) => (
           <div
-          ref={messageEndScrollRef}
+            ref={messageEndScrollRef}
             key={`${message._id}-${index}`}
             className={`chat ${
               message.senderId === authUser?._id ? "chat-end" : "chat-start"
@@ -69,8 +68,8 @@ function ChatContainer() {
                 <img
                   src={
                     message.senderId === authUser?._id
-                      ? authUser?.profilePic || "./src/avatar.png"
-                      : selectedUser?.profilePic || "./src/avatar.png"
+                      ? authUser?.profilePic || "./src/assets/avatar.png"
+                      : selectedUser?.profilePic || "./src/assets/avatar.png"
                   }
                   alt="Profile Pic"
                 />
@@ -83,7 +82,7 @@ function ChatContainer() {
               </time>
             </div>
 
-            <div className="chat-bubble flex flex-col items-center" >
+            <div className="chat-bubble flex flex-col items-center">
               {message.image && (
                 <img
                   src={message?.image}

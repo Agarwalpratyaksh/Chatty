@@ -20,12 +20,12 @@ function App() {
   
   useEffect(() => {
     checkAuth();
-    console.log({authUser})
+    // console.log({authUser})
   }, [checkAuth]);
 
 
-  console.log(authUser)
-  console.log({ onlineUsers });
+  // console.log(authUser)
+  // console.log({ onlineUsers });
 
 
   if (isCheckingAuth && !authUser) {
