@@ -25,7 +25,6 @@ function App() {
 
 
   // console.log(authUser)
-  // console.log({ onlineUsers });
 
 
   if (isCheckingAuth && !authUser) {
